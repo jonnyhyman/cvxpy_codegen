@@ -14,18 +14,18 @@ Abstractly, CVXPY-CODEGEN addresses parametrized *families* of convex optimizati
 The parameter `a` defines a specific problem instance in the family; for every such problem instance, the variable `x` is to be determined by solving the optimization problem.  In CVXPY-CODEGEN, the problem family (*ie*, the convex functions `f_i`) are specified in Python using CVXPY.  After C code is generated for this family, the user passes in the parameter `a`, and the problem is solved (all in C).  Currently, problems handled include least squares problems, linear programs (LPs), quadratic programs (QPs), second-order cone programs (SOCPs).
 
 # ------------------- Windows Support Tutorial --------------------------#
-#                       Jonny Hyman, 2017                              #
+Jonny Hyman, 2017                              
 
-# Supports Python 2.7, and C Wrapper does not support Python3
-# Tested on Win10/64bit with Anaconda2
-# Only supports the ECOS solver
+ Supports Python 2.7, and C Wrapper does not support Python3
+ Tested on Win10/64bit with Anaconda2
+ Only supports the ECOS solver
 
-# BEFORE DOING ANYTHING:
+ BEFORE DOING ANYTHING:
   - head into cvxpy_codegen/templates/codegenmodule.c.jinja,
     on line 24, replace #include "your numpy array object path" with your own.
     - later versions may support automatic file finding, but for now its static
 
-# How to go from a CVXPY_CODEGEN problem, to embedded C code, to a Python C Wrapper
+ How to go from a CVXPY_CODEGEN problem, to embedded C code, to a Python C Wrapper
 
 0) Installation : Place the egg folder in your Python2 folder... Right now setup.py
     not supported and not needed (?)
@@ -39,8 +39,8 @@ The parameter `a` defines a specific problem instance in the family; for every s
 2) Run the CVXPY_CODEGEN file with prob.codegen('name') at the end
   - The generated files will all compile into your working directory
 
-# CONGRATS! You just made some rad C files which are highly speedy!
-# To migrate back into python for a C python wrapper, turn the page!
+ CONGRATS! You just made some rad C files which are highly speedy!
+ To migrate back into python for a C python wrapper, turn the page!
 
 3) Run VS2015 x64 Native Tools Command Prompt (or similar)
 
@@ -61,9 +61,9 @@ The parameter `a` defines a specific problem instance in the family; for every s
    >> import cvxpy_codegen_solver
    >> cvxpy_codegen_solver.cg_solve(each,of,your,input,variables)
 
-# Have fun with your optimizations and make great things!
-# Jonny Hyman
-# jonnyhyman.com
+ Have fun with your optimizations and make great things!
+ Jonny Hyman
+ jonnyhyman.com
 
 #### Least squares example
 To make this all concrete, let's try a simple least-squares problem:
