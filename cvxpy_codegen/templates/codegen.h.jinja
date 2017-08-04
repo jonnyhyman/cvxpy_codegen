@@ -57,8 +57,8 @@ typedef struct work_struct{
     {{ param_handler_workspace() }}
 
     /* Storage for integer and double workspaces. */
-    long work_int[{{ work_int }}];
-    double work_double[{{ work_float }}];
+    long work_int[{{ work_int+1 }}]; /* +1 so we don't index with 0 */
+    double work_double[{{ work_float +1 }}];
 } Work;
 
 
@@ -79,7 +79,7 @@ void cg_init(Work *work);
  * INPUTS:
  * work     - Pointer to a Work workspace that has been initialized
  *            using the using the 'cg_init' function above.
- * params   - Pointer to a Params structure with values initialized 
+ * params   - Pointer to a Params structure with values initialized
  *            by the user.
  *
  * OUTPUTS:
