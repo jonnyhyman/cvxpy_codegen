@@ -1,18 +1,18 @@
 /*
  *  Copyright 2017 Nicholas Moehle
- *  
+ *
  *  This file is part of CVXPY-CODEGEN.
- *  
+ *
  *  CVXPY-CODEGEN is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
- *  
+ *
  *  CVXPY-CODEGEN is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- *  
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with CVXPY-CODEGEN.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -20,7 +20,8 @@
 #include <Python.h>
 #include "codegen.h"
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
-#include "numpy/arrayobject.h"
+//#include "numpy/arrayobject.h"
+#include "C:\Anaconda2\Lib\site-packages\numpy\core\include\numpy\arrayobject.h"
 
 
 static PyObject *solve_wrapper(PyObject *self, PyObject *args){
@@ -38,6 +39,15 @@ static PyObject *solve_wrapper(PyObject *self, PyObject *args){
   /* Dictionary labels for Stats structure. */
   char status_str[] = "status";
   char objective_str[] = "objective";
+
+  char dict_string[] = "({
+  {%- if len(named_vars) > 0 -%}
+  {%- for i in range(len(named_vars)-1) -%}
+  s:O,
+  {%- endfor -%}
+  s:O
+  {%- endif -%}
+  },{s:i,s:d})";
 
   /* Space for variables to be returned. */
   {% if named_vars %}
@@ -88,14 +98,7 @@ static PyObject *solve_wrapper(PyObject *self, PyObject *args){
 
 
   /* Build a dictionary mapping the variable name to its Numpy array. */
-  char dict_string[] = "({
-  {%- if len(named_vars) > 0 -%}
-  {%- for i in range(len(named_vars)-1) -%}
-  s:O,
-  {%- endfor -%}
-  s:O
-  {%- endif -%}
-  },{s:i,s:d})";
+
   return_dict = Py_BuildValue(dict_string,
   {% for v in named_vars %}
   "{{ v.name() }}", {{ v.name() }},
@@ -111,24 +114,13 @@ static PyObject *solve_wrapper(PyObject *self, PyObject *args){
 
 }
 
-
 static PyMethodDef CvxpyCodegenSolverMethods[] = {
   { "solve", solve_wrapper, METH_VARARGS, "Solves the specified optimization problem." },
   { NULL, NULL, 0, NULL }
 };
 
-
-static struct PyModuleDef CvxpyCodegenSolverModule = {
-  PyModuleDef_HEAD_INIT,
-  "_cvxpy_codegen_solver",   /* name of module */
-  NULL, /* module documentation, may be NULL */
-  -1,       /* size of per-interpreter state of the module,
-               or -1 if the module keeps state in global variables. */
-  CvxpyCodegenSolverMethods
-};
-
-PyMODINIT_FUNC PyInit__cvxpy_codegen_solver(void)
+PyMODINIT_FUNC init_cvxpy_codegen_solver(void)
 {
   import_array();
-  return PyModule_Create(&CvxpyCodegenSolverModule);
+  (void) Py_InitModule("_cvxpy_codegen_solver",CvxpyCodegenSolverMethods);
 }
