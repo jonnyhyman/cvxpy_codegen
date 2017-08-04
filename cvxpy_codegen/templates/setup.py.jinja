@@ -1,5 +1,5 @@
 from distutils.core import setup, Extension
-        
+
 SOURCES = ([
 {% for s in solver_sources + intf_sources %}
      "{{ s }}",
@@ -17,10 +17,15 @@ DEFINE_MACROS = ([
 
 
 ext = Extension("_cvxpy_codegen_solver",
-                libraries = ['rt'],
+                libraries = ['MSVCRT'], # MSVCRT recommended on Win10
                 define_macros = DEFINE_MACROS,
                 sources = SOURCES,
                 include_dirs = INCLUDE_DIRS)
+
 setup(name = 'cvxpy_codegen_solver',
+      description='Generated embedded C code for convex optimization problems.',
+      version='0.0.2',
+      author='Nicholas Moehle / Windows Support by Jonny Hyman',
+      author_email='moehle@stanford.edu / jonnyhyman@gmail.com',
       py_modules = ['cvxpy_codegen_solver'],
       ext_modules = [ext])
