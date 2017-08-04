@@ -13,7 +13,7 @@ Abstractly, CVXPY-CODEGEN addresses parametrized *families* of convex optimizati
 
 The parameter `a` defines a specific problem instance in the family; for every such problem instance, the variable `x` is to be determined by solving the optimization problem.  In CVXPY-CODEGEN, the problem family (*ie*, the convex functions `f_i`) are specified in Python using CVXPY.  After C code is generated for this family, the user passes in the parameter `a`, and the problem is solved (all in C).  Currently, problems handled include least squares problems, linear programs (LPs), quadratic programs (QPs), second-order cone programs (SOCPs).
 
-#### Windows Support Tutorial
+# Windows Support Tutorial
 Jonny Hyman, 2017                              
 
  Supports Python 2.7, and C Wrapper does not support Python3
@@ -42,7 +42,7 @@ Jonny Hyman, 2017
  CONGRATS! You just made some rad C files which are highly speedy!
  To migrate back into python for a C python wrapper, turn the page!
 
-   # MSVCRT & VS2015
+   #### MSVCRT & VS2015
    The MSVCRT and VS2015 are required to create the C wrapper
    This free Microsoft distribution seems to work for this: https://www.microsoft.com/en-us/download/details.aspx?id=44266
 
