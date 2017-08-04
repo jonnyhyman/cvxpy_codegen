@@ -1,4 +1,4 @@
-import _cvxpy_codegen_solver as _intf
+from _cvxpy_codegen_solver import * # imports the speedy C wrapper module .pyd
 import numpy
 
 def cg_solve({%- for p in named_params -%}
@@ -11,7 +11,7 @@ def cg_solve({%- for p in named_params -%}
         raise TypeError("Parameter {{p.name}} should have shape {{p.size}}, but has shape %s" % str({{p.name}}.shape))
     {% endfor %}
 
-    vars_dict, stats_dict = _intf.solve({% for p in named_params -%}
+    vars_dict, stats_dict = solve({% for p in named_params -%}
                                         {{ p.name }},
                                         {%- endfor %})
 
