@@ -62,13 +62,14 @@ Jonny Hyman, 2017
    - Ensure all the files related to your package are available
    (in site-packages or in working directory)
 
-   >> import cvxpy_codegen_solver
-   >> cvxpy_codegen_solver.cg_solve(each,of,your,input,variables)
+    import cvxpy_codegen_solver as cvx
+    cvx.cg_solve(each,of,your,input,variables)
 
  Have fun with your optimizations and make great things!
  Jonny Hyman
  jonnyhyman.com
 
+# Examples
 #### Least squares example
 To make this all concrete, let's try a simple least-squares problem:
 
