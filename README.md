@@ -13,19 +13,17 @@ Abstractly, CVXPY-CODEGEN addresses parametrized *families* of convex optimizati
 
 The parameter `a` defines a specific problem instance in the family; for every such problem instance, the variable `x` is to be determined by solving the optimization problem.  In CVXPY-CODEGEN, the problem family (*ie*, the convex functions `f_i`) are specified in Python using CVXPY.  After C code is generated for this family, the user passes in the parameter `a`, and the problem is solved (all in C).  Currently, problems handled include least squares problems, linear programs (LPs), quadratic programs (QPs), second-order cone programs (SOCPs).
 
-# Windows Support Tutorial
-Jonny Hyman, 2017                              
+# Windows Support & Usage Tutorial
+  Known support for Python 2.7, note that C Wrapper does not support Python3
+  Tested on Win10/64bit with Anaconda2
+  Only supports the ECOS solver
 
- Supports Python 2.7, and C Wrapper does not support Python3
- Tested on Win10/64bit with Anaconda2
- Only supports the ECOS solver
-
- BEFORE DOING ANYTHING:
+-1) Get link sorted out
   - head into cvxpy_codegen/templates/codegenmodule.c.jinja,
     on line 24, replace #include "your numpy array object path" with your own.
-    - later versions may support automatic file finding, but for now its static
+  - later versions may support automatic file finding, but for now its static
 
- How to go from a CVXPY_CODEGEN problem, to embedded C code, to a Python C Wrapper
+#### How to go from a CVXPY_CODEGEN problem, to embedded C code, to a Python C Wrapper
 
 0) Installation : Place the egg folder in your Python2 folder... Right now setup.py
     not supported and not needed (?)
@@ -37,7 +35,7 @@ Jonny Hyman, 2017
        fixed array sizes! Complain to Dennis Ritchie!
 
 2) Run the CVXPY_CODEGEN file with prob.codegen('name') at the end
-  - The generated files will all compile into your working directory
+    - The generated files will all compile into your working directory
 
  CONGRATS! You just made some rad C files which are highly speedy!
  To migrate back into python for a C python wrapper, turn the page!
@@ -53,14 +51,13 @@ Jonny Hyman, 2017
 5) "activate (your_anaconda_environment)" [optional]
 
 6) do setup (CHOOSE FROM BELOW)
-  6a) python setup.py install <-- makes your new C wrapper available in Python site-packages
-  6b) python setup.py build   <-- makes your new C wrapper build locally (./build/...)
-  6c) python setup.py clean   <-- cleans out the ./build path if you're recompiling
+ - python setup.py install <-- makes your new C wrapper available in Python site-packages
+ - python setup.py build   <-- makes your new C wrapper build locally (./build/...)
+ - python setup.py clean   <-- cleans out the ./build path if you're recompiling
       - note this doesn't actually seem to work. Recommend manually deleting build folder
 
 7) To call your new wrapper in python (assuming you did 6a or 6b)
-   - Ensure all the files related to your package are available
-   (in site-packages or in working directory)
+   - Ensure all the files related to your package are available (in site-packages or in working directory)
 
     import cvxpy_codegen_solver as cvx
     cvx.cg_solve(each,of,your,input,variables)
